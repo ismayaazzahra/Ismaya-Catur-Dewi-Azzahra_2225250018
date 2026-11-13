@@ -42,7 +42,7 @@ React 18 + Vite 5 (JavaScript/JSX, **bukan TypeScript**) · React Router `HashRo
 6. **Ilustrasi SVG** (tajam, bisa diperbesar), dengan `role="img"` dan `aria-label`. *(EL03)*
 7. **Umpan balik salah harus menyebut miskonsepsinya** (lihat `src/data/miskonsepsi.json`). *(IL05)*
 8. **Offline-safe**: tidak ada CDN, font eksternal, API, atau fetch ke luar. Semua aset di-bundle & di-precache.
-9. **Privasi**: tidak ada backend, login, analitik, atau data pribadi yang keluar perangkat. Penyimpanan hanya `localStorage` key `boxbuster:v1`, selalu dalam `try/catch`.
+9. **Privasi**: tidak ada backend, login ke server, analitik, atau data pribadi yang keluar perangkat. "Masuk/Daftar" hanyalah **profil lokal** (nama panggilan, kelas opsional, karakter) tanpa password; daftar profil di `localStorage` key `boxbuster:profil`, progres per profil di `boxbuster:p:<id>`. Semua akses dalam `try/catch`.
 10. **Mobile-first**: uji di lebar 360 px; target sentuh ≥ 48 px; teks ≥ 16 px; hormati `prefers-reduced-motion`.
 11. Jangan memakai `window.alert/confirm/prompt` — gunakan `ConfirmDialog`.
 12. Jangan memakai merek dagang produk nyata pada ilustrasi/soal.

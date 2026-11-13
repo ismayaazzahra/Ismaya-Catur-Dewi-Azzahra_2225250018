@@ -90,6 +90,13 @@ Siswa SMP kesulitan memahami dan membedakan bruto, netto, dan tara—terutama sa
 
 ## 7. Kebutuhan Fungsional
 
+### FR-0 Masuk / Daftar (profil lokal)
+- FR-0.1 Layar pertama aplikasi: maskot Boxy, judul, tab **Masuk** dan **Daftar baru**.
+- FR-0.2 Daftar cukup dengan **nama panggilan** (wajib, maks. 20 huruf), **kelas** (opsional), dan **karakter** (keripik/beras/permen/gula). Tanpa email, tanpa password.
+- FR-0.3 Masuk: daftar pemain yang pernah mendaftar di perangkat itu; satu ketukan untuk melanjutkan. Pemain terakhir ditandai.
+- FR-0.4 Setiap pemain punya progres sendiri (cocok untuk satu HP dipakai bergantian). Tombol **Ganti pemain** di beranda.
+- FR-0.5 Data hanya tersimpan di perangkat (`localStorage`); tidak dikirim ke server. Nama yang sama tidak boleh didaftarkan dua kali.
+
 ### FR-1 Beranda / Peta Petualangan
 - FR-1.1 Beranda berupa **peta pulau bergaya petualangan** (dilihat dari atas, siswa menggulir dari bawah ke atas). Jalan kayu menghubungkan 5 pulau bertema kemasan, berakhir di **Kotak Misteri** di puncak:
   1. **Pulau Jajanan** → Bongkar Kotak (kantong keripik, kotak jajan)
