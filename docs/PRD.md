@@ -112,6 +112,28 @@ Siswa SMP kesulitan memahami dan membedakan bruto, netto, dan tara—terutama sa
 - FR-1.6 Ilustrasi peta dibuat sendiri (SVG), tidak meniru gim tertentu.
 - FR-1.7 Tombol "Pasang Aplikasi" muncul bila browser mendukung `beforeinstallprompt`; di iOS tampil panduan manual.
 
+### FR-1B Menu bawah, gamifikasi & hadiah
+- FR-1B.1 Menu bawah tetap: **Peta · Main · Hadiah · Profil** (tersembunyi di layar Masuk).
+- FR-1B.2 **Koin**: 20 per pulau, 10 per soal latihan benar, ditambah koin dari mini-game. Koin bisa dibelanjakan.
+- FR-1B.3 **Lencana** (12): misalnya Pembongkar Pemula, Ahli Persen Tara, Raja Konveyor, Kombo Kilat, Detektif Hebat, dan Kolektor.
+- FR-1B.4 **Toko Avatar**: 18 teman Boxy. 8 gratis saat daftar, 9 dibeli dengan koin, dan 1 (Raja Emas) terbuka lewat lencana Pembongkar Ahli.
+- FR-1B.5 **Perayaan** saat misi selesai, rekor baru, atau avatar baru: konfeti, fanfare, koin yang didapat, dan lencana baru.
+- FR-1B.6 **Kotak Misteri** di puncak peta berisi hadiah **Timbangan Ajaib** (kalkulator visual). Hadiah ini terbuka setelah 5 pulau selesai.
+
+### FR-7 (revisi) Timbangan Ajaib — kalkulator visual
+- Input: isi kardus (permen/keripik/gula/beras), satuan (kg/g), bruto, dan tara (berat atau %).
+- Animasi: kardus jatuh ke timbangan digital (layar menunjukkan BRUTO), lalu kardus kosong dipindah ke timbangan kecil (TARA), lalu layar utama turun ke NETTO.
+- Setelah animasi tampil bar model dan 3 langkah hitung berwarna konsep. Bila `prefers-reduced-motion` aktif, hasil akhir langsung ditampilkan tanpa animasi.
+
+### FR-10 Arena Mini-Game
+| Game | Konsep | Mekanik | Temuan |
+|---|---|---|---|
+| **Boxy's Pack & Weigh** | Hitung cepat B/N/T (+ persen tara mulai level 3) | Paket di ban berjalan menuju truk, 3 pilihan jawaban, kombo, 3 nyawa, makin cepat tiap 5 benar | IL02, IL05 |
+| **Tear the Tara!** | Tara = semua pembungkus | Swipe/tap untuk mengupas pita → plastik → kardus; timbangan berubah dari bruto ke netto; pilih tara. 5 paket | IL01, K01 |
+| **Mystery Box Detective** | Literasi: masalah kontekstual | 4 kasus toko. Pilih rumus, hitung berat yang dicuri, lalu tangkap "si Usil" | EL05, GL05 |
+| **Sortir Istilah** (tambahan) | Sinonim istilah | Kartu istilah ("berat kemasan", "neto", …) dimasukkan ke keranjang Bruto/Netto/Tara, 12 kartu berwaktu | EL01 |
+Pengecoh mini-game memakai kode miskonsepsi yang sama dengan latihan, sehingga umpan baliknya tetap menyebut miskonsepsinya.
+
 ### FR-2 Bongkar Kotak
 - FR-2.1 Pilihan minimal 6 kemasan (keripik, susu kaleng, beras karung, minyak jeriken, paket kardus, biskuit kaleng).
 - FR-2.2 Tap/geser membuka kemasan → isi keluar → label **Netto** (hijau), kemasan kosong → **Tara** (oranye), timbangan awal → **Bruto** (biru).
