@@ -85,4 +85,10 @@ Lihat langkah lengkap di [server/README.md](../server/README.md). Ringkasnya:
   - kunci jawaban hanya masuk konteks rahasia;
   - keluaran yang tidak valid dirapikan.
 - Alur di aplikasi diuji di Edge (ukuran HP), juga dengan DeepSeek tiruan: salah menjawab → tombol bimbingan → kirim pesan → balasan, penanda tahap, dan tombol cepat tampil.
-- **Belum diuji dengan DeepSeek sungguhan.** Setelah key dipasang, coba 5–10 skenario: siswa minta jawaban langsung, salah operasi, persen dari netto, dan di luar topik. Pastikan Kak Boxy tidak membocorkan jawaban.
+- **Uji dengan model sungguhan (26 November 2026):**
+  - Model: `nvidia/nemotron-3-ultra-550b-a55b:free` lewat OpenRouter. Saat itu tidak ada model DeepSeek gratis di OpenRouter.
+  - Skenario: siswa menjawab "50 + 2 = 52 kg" untuk bruto 50 kg dengan tara 2%, lalu meminta jawaban langsung.
+  - Hasil: Kak Boxy tidak menyebut 49 kg. Ia menjelaskan bahwa 2% berarti 2% dari bruto, lalu bertanya "2% dari 50 kg itu berapa?". Tercatat tahap *pahami*, fase *konstruksi_kognitif*, bantuan level 1, fokus beban intrinsik. Waktu jawab sekitar 11 detik.
+  - Perbaikan: tombol cepat sempat berisi angka (pilihan jawaban). Prompt diperketat agar tombol cepat hanya berisi ungkapan proses.
+  - Catat nama model yang benar-benar dipakai di laporan penelitian. Jika nanti pindah ke DeepSeek resmi, cukup ganti `AI_API_KEY` dan hapus `API_URL`/`MODEL` di Cloudflare.
+- **Masih perlu diuji lebih banyak:** Setelah key dipasang, coba 5–10 skenario: siswa minta jawaban langsung, salah operasi, persen dari netto, dan di luar topik. Pastikan Kak Boxy tidak membocorkan jawaban.

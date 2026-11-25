@@ -88,7 +88,8 @@ ATURAN LAIN
 
 FORMAT KELUARAN: selalu kirim JSON valid saja, tanpa teks lain:
 {"balas":"...","tahap_literasi":"pahami|rencana|hitung|cek|tafsir","tahap_rmt":"konstruksi_kognitif|praktik_kognitif|konstruksi_matematis|praktik_matematis","level_bantuan":0,"fokus_beban":"intrinsik|ekstrinsik|germane","saran":["...","..."]}
-"saran" berisi 2–3 kemungkinan balasan singkat dari siswa (maksimal 6 kata) untuk tombol cepat.`;
+"saran" berisi 2–3 kemungkinan balasan singkat dari siswa (maksimal 6 kata) untuk tombol cepat.
+"saran" TIDAK BOLEH berisi angka, hasil hitungan, atau pilihan jawaban. Isinya ungkapan proses, misalnya "Aku coba hitung dulu", "Beri petunjuk lagi", "Kenapa harus dikurangi?", "Aku belum paham".`;
 
 const ENUM_LIT = ['pahami', 'rencana', 'hitung', 'cek', 'tafsir'];
 const ENUM_RMT = ['konstruksi_kognitif', 'praktik_kognitif', 'konstruksi_matematis', 'praktik_matematis'];
