@@ -41,8 +41,10 @@ React 18 + Vite 5 (JavaScript/JSX, **bukan TypeScript**) · React Router `HashRo
 5. **Tempo dikendalikan siswa**: tidak ada penjelasan/animasi yang maju otomatis. *(EL02, EL04)*
 6. **Ilustrasi SVG** (tajam, bisa diperbesar), dengan `role="img"` dan `aria-label`. *(EL03)*
 7. **Umpan balik salah harus menyebut miskonsepsinya** (lihat `src/data/miskonsepsi.json`). *(IL05)*
-8. **Offline-safe**: tidak ada CDN, font eksternal, API, atau fetch ke luar. Semua aset di-bundle & di-precache.
-9. **Privasi**: tidak ada backend, login ke server, analitik, atau data pribadi yang keluar perangkat. "Masuk/Daftar" hanyalah **profil lokal** (nama panggilan, kelas opsional, karakter) tanpa password; daftar profil di `localStorage` key `boxbuster:profil`, progres per profil di `boxbuster:p:<id>`. Semua akses dalam `try/catch`.
+8. **Offline-safe**: tidak ada CDN, font eksternal, API, atau fetch ke luar, **kecuali satu**: asisten Kak Boxy memanggil server perantara milik proyek (`server/worker.js`, Cloudflare Worker → DeepSeek). Fitur lain wajib tetap jalan offline, dan Kak Boxy harus menampilkan pesan ramah saat offline atau saat `web/config.js` kosong. Lihat [docs/ASISTEN_AI.md](docs/ASISTEN_AI.md).
+   - **API key DeepSeek tidak boleh ditulis di repo atau aplikasi** dalam bentuk apa pun; hanya sebagai Secret `DEEPSEEK_API_KEY` di Cloudflare.
+   - Prompt pedagogis tinggal di server. Kak Boxy membimbing (tahap literasi PISA, fase RMT, tangga bantuan 0–4, kelola beban kognitif) dan **tidak menyebut jawaban akhir**.
+9. **Privasi**: tidak ada login ke server, analitik, atau data pribadi yang keluar perangkat. Nama/kelas siswa tidak dikirim ke Kak Boxy, dan riwayat obrolan tidak disimpan. "Masuk/Daftar" hanyalah **profil lokal** (nama panggilan, kelas opsional, karakter) tanpa password; daftar profil di `localStorage` key `boxbuster:profil`, progres per profil di `boxbuster:p:<id>`. Semua akses dalam `try/catch`.
 10. **Mobile-first**: uji di lebar 360 px; target sentuh ≥ 48 px; teks ≥ 16 px; hormati `prefers-reduced-motion`.
 11. Jangan memakai `window.alert/confirm/prompt` — gunakan `ConfirmDialog`.
 12. Jangan memakai merek dagang produk nyata pada ilustrasi/soal.

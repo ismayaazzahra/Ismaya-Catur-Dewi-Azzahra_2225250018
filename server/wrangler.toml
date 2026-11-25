@@ -1,0 +1,13 @@
+# Opsional: hanya dipakai jika men-deploy lewat Wrangler CLI (butuh Node.js).
+# Cara termudah tanpa CLI ada di server/README.md (lewat dashboard Cloudflare).
+name = "boxbuster-kak-boxy"
+main = "worker.js"
+compatibility_date = "2024-09-23"
+
+[vars]
+ALLOWED_ORIGINS = "https://ismayaazzahra.github.io"
+RATE_LIMIT = "40"
+MODEL = "deepseek-chat"
+
+# API key JANGAN ditulis di sini. Pasang sebagai secret:
+#   npx wrangler secret put DEEPSEEK_API_KEY

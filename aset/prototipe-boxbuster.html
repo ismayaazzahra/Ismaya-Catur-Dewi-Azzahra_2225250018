@@ -287,11 +287,43 @@ ol.steps{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:4px}
 .pbar span{flex:1;min-width:0;overflow-wrap:anywhere}
 .pbar small{display:block;color:var(--muted);font-size:13px}
 .btn.sm{min-height:44px;padding:6px 12px;font-size:14px}
+
+/* asisten Kak Boxy */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.tutor-head{display:flex;gap:12px;align-items:center}
+.tutor-head img{width:72px;height:66px;object-fit:contain;flex:none}
+.lit-track{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;font-size:12px;font-weight:800;text-align:center;color:var(--muted)}
+.lit-track span{border-top:5px solid var(--line);padding-top:4px}
+.lit-track span.on{border-color:var(--brand);color:var(--text)}
+.lit-track span.done{border-color:var(--ok)}
+.tutor-meta{display:flex;flex-wrap:wrap;gap:6px}
+.tutor-meta .pill{display:inline-flex;align-items:center;gap:6px}
+.lvl{display:inline-flex;gap:2px}
+.lvl i{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.lvl i.on{background:var(--brand)}
+.chat{display:flex;flex-direction:column;gap:10px}
+.msg{display:flex;gap:8px;align-items:flex-end}
+.msg.me{justify-content:flex-end}
+.msg img{width:34px;height:32px;object-fit:contain;flex:none}
+.bub{max-width:82%;margin:0;padding:10px 14px;border-radius:16px;font-size:16px;line-height:1.5;overflow-wrap:anywhere}
+.msg.ai .bub{background:var(--surface);border:2px solid var(--line);border-bottom-left-radius:4px}
+.msg.me .bub{background:var(--brand);color:var(--brand-ink);border-bottom-right-radius:4px}
+.typing{display:flex;gap:5px;align-items:center;min-height:44px}
+.typing i{width:8px;height:8px;border-radius:50%;background:var(--muted);animation:dot 1s ease-in-out infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes dot{50%{transform:translateY(-5px);opacity:.5}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips .pick{font-size:14px}
+.chat-form{display:flex;gap:8px;align-items:flex-end}
+.chat-form textarea{flex:1;min-width:0;resize:none;border:2px solid var(--line);border-radius:var(--r);background:var(--surface);color:var(--text);font:16px/1.4 var(--f-body);padding:10px 12px}
+.chat-form textarea:focus{outline:none;border-color:var(--brand)}
+.chat-form .btn{width:auto;flex:none}
+.tutor-btn{width:100%;border-color:var(--brand);color:var(--text)}
 .row.two > .field{flex:1 1 140px}
 .sel{flex:1;min-width:0;border:none;background:transparent;font:700 18px var(--f-body);color:var(--text);padding:12px 14px}
 
 /* menu bawah */
-.bnav{position:fixed;left:0;right:0;bottom:0;z-index:15;background:var(--surface);border-top:2px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);
+.bnav{position:fixed;left:0;right:0;bottom:0;z-index:15;background:var(--surface);border-top:2px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);
   padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
 .bnav button{background:transparent;border:0;min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:12px;font-weight:800;color:var(--muted);cursor:pointer;position:relative}
 .bnav button[aria-current="page"]{color:var(--brand)}
@@ -458,6 +490,7 @@ body.has-nav .toast,body.has-nav .install{bottom:calc(82px + env(safe-area-inset
   <button data-nav="home"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3zM9 3v15M15 6v15" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Peta</button>
   <button data-nav="arena"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12a4 4 0 0 1 4 4v2a3 3 0 0 1-5.3 1.9L15 14H9l-1.7 1.9A3 3 0 0 1 2 14v-2a4 4 0 0 1 4-4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M7 10v4M5 12h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="11" r="1.3" fill="currentColor"/><circle cx="18.5" cy="13.5" r="1.3" fill="currentColor"/></svg>Main</button>
   <button data-nav="hadiah"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="9" width="18" height="12" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 13h18M12 9v12" stroke="currentColor" stroke-width="2"/><path d="M12 9C10 4.5 6 5 7 8c.6 1.5 5 1 5 1zm0 0c2-4.5 6-4 5-1-.6 1.5-5 1-5 1z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Hadiah</button>
+  <button data-nav="tutor"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 10.5h.01M12 10.5h.01M15 10.5h.01" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>Kak Boxy</button>
   <button data-nav="profil"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 21a8 8 0 0 1 16 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Profil</button>
 </nav>
 
@@ -491,6 +524,7 @@ const back = document.getElementById('back');
 let screen = 'masuk';
 back.addEventListener('click', ()=>go(PARENT[screen]||'home'));
 app.addEventListener('click', e=>{ if(e.target.closest('[data-map]')) go('home'); });
+app.addEventListener('click', e=>{ if(e.target.closest('[data-tutor]')) bukaTutor(tutorStash); });
 const MAPBTN = t=>'<button class="btn primary" data-map>'+(t||'Kembali ke peta')+'</button>';
 
 /* ---------- audio: musik latar peta & efek suara (Web Audio, tanpa file) ---------- */
@@ -784,7 +818,7 @@ function gameOver(o){
 
 /* menu bawah & navigasi */
 const PARENT = {bongkar:'home', kamus:'home', contoh:'home', latihan:'home', misi:'home', alat:'hadiah', pack:'arena', tear:'arena', detektif:'arena', sortir:'arena'};
-const TOP = ['home','arena','hadiah','profil'];
+const TOP = ['home','arena','tutor','hadiah','profil'];
 const MUSIC_ON = ['masuk','home','arena','hadiah','profil','pack','tear','detektif','sortir'];
 const bnav = document.getElementById('bnav');
 bnav.querySelectorAll('[data-nav]').forEach(b=>b.addEventListener('click', ()=>go(b.dataset.nav)));
@@ -1103,6 +1137,89 @@ screens.profil = function(){
     row.querySelector('#yes').onclick = ()=>{ store = Object.assign(freshStore(), {music:store.music, sfx:store.sfx}); lxIdx = 0; setAvatar(ownsAvatar(me.avatar) ? me.avatar : 'av-tosca'); save(); toast('Progres dihapus.'); render(); };
   };
 };
+
+/* ================= ASISTEN BELAJAR "KAK BOXY" (DeepSeek lewat server perantara) =================
+   Pembimbing proses berpikir: tahap literasi PISA, tahap RMT, tangga bantuan 0-4, kelola beban kognitif.
+   API key TIDAK ada di aplikasi; hanya alamat server (web/config.js). Nama/kelas siswa tidak dikirim. */
+const CHAT_URL = String(window.BOXBUSTER_CHAT_URL || '').trim();
+const TUTOR_BTN = '<button class="btn ghost tutor-btn" data-tutor>Minta bimbingan Kak Boxy</button>';
+let tutorStash = null;
+let tutor = {pesan:[], konteks:null, info:null, loading:false, galat:null};
+const plainSoal = t=>String(t).replace(/\{\w+:([^}]+)\}/g, '$1');
+function bukaTutor(konteks){ tutor = {pesan:[], konteks:konteks||null, info:null, loading:false, galat:null}; go('tutor'); }
+const LIT = [['pahami','Pahami'],['rencana','Rencana'],['hitung','Hitung'],['cek','Cek'],['tafsir','Tafsir']];
+const RMT_NAMA = {konstruksi_kognitif:'Membangun alat berpikir', praktik_kognitif:'Melatih alat berpikir', konstruksi_matematis:'Membangun konsep matematis', praktik_matematis:'Menerapkan & merefleksi'};
+const BEBAN_NAMA = {intrinsik:'Langkah kecil dulu', ekstrinsik:'Bahasa ringkas', germane:'Jelaskan alasanmu'};
+const fmtChat = s=>esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');
+screens.tutor = function(){
+  if(!tutor.pesan.length){
+    tutor.pesan.push({role:'assistant', content: tutor.konteks
+      ? 'Ayo kita bahas soal ini pelan-pelan. Pertama, angka apa saja yang kamu lihat di soal?'
+      : 'Halo! Aku Kak Boxy. Aku tidak memberi jawaban, tapi membantumu menemukannya. Mau mulai dari mana?'});
+  }
+  const info = tutor.info || {};
+  const litIdx = LIT.findIndex(l=>l[0]===info.tahap_literasi);
+  const saran = (info.saran && info.saran.length) ? info.saran
+    : (tutor.konteks ? ['Aku belum paham soalnya','Beri petunjuk','Cek jawabanku'] : ['Apa beda netto dan tara?','Bantu soal persen tara','Aku punya soal cerita']);
+  const siap = !!CHAT_URL, online = navigator.onLine !== false;
+  app.innerHTML =
+    '<section class="tutor-head"><img src="'+IMG.boxy+'" alt=""><div><h2 class="ttl">Kak Boxy</h2><p class="cap">Pembimbing berpikirmu. Aku tidak memberi jawaban akhir, tapi menuntunmu langkah demi langkah.</p></div></section>'+
+    (tutor.konteks && tutor.konteks.soal ? '<div class="clue"><p class="eyebrow" style="color:#92400E">Soal yang kita bahas</p><p>'+esc(tutor.konteks.soal)+'</p></div>' : '')+
+    '<div class="lit-track" aria-label="Tahap literasi matematika">'+LIT.map((l,i)=>'<span class="'+(i===litIdx?'on':(litIdx>=0&&i<litIdx?'done':''))+'">'+l[1]+'</span>').join('')+'</div>'+
+    (info.tahap_rmt || info.fokus_beban || tutor.info ? '<div class="tutor-meta">'+
+      (info.tahap_rmt ? '<span class="pill">Berpikir: '+RMT_NAMA[info.tahap_rmt]+'</span>' : '')+
+      (info.fokus_beban ? '<span class="pill">Fokus: '+BEBAN_NAMA[info.fokus_beban]+'</span>' : '')+
+      '<span class="pill" title="Tingkat bantuan">Bantuan '+(info.level_bantuan||0)+'/4 <span class="lvl">'+[1,2,3,4].map(n=>'<i class="'+(n<=(info.level_bantuan||0)?'on':'')+'"></i>').join('')+'</span></span></div>' : '')+
+    '<div class="chat" id="chat" aria-live="polite">'+
+      tutor.pesan.map(m=> m.role==='assistant'
+        ? '<div class="msg ai"><img src="'+IMG.boxy+'" alt=""><p class="bub">'+fmtChat(m.content)+'</p></div>'
+        : '<div class="msg me"><p class="bub">'+fmtChat(m.content)+'</p></div>').join('')+
+      (tutor.loading ? '<div class="msg ai"><img src="'+IMG.boxy+'" alt=""><p class="bub typing" aria-label="Kak Boxy sedang berpikir"><i></i><i></i><i></i></p></div>' : '')+
+      (tutor.galat ? '<div class="fb err"><p>'+esc(tutor.galat)+'</p><button class="btn ghost" id="retry">Coba kirim lagi</button></div>' : '')+
+    '</div>'+
+    (!siap ? '<div class="card"><p><b>Kak Boxy belum terhubung.</b></p><p class="cap">Asisten AI aktif di versi web BoxBuster setelah server Kak Boxy dipasang. Fitur lain tetap bisa dipakai.</p></div>'
+      : !online ? '<div class="card"><p><b>Kak Boxy butuh internet.</b></p><p class="cap">Fitur lain BoxBuster tetap jalan tanpa internet.</p></div>'
+      : '<div class="chips">'+saran.map(s=>'<button class="pick" data-s="'+esc(s)+'"'+(tutor.loading?' disabled':'')+'>'+esc(s)+'</button>').join('')+'</div>'+
+        '<form class="chat-form" id="chatForm"><label for="chat-in" class="sr">Tulis pesan untuk Kak Boxy</label>'+
+        '<textarea id="chat-in" rows="2" maxlength="300" placeholder="Tulis caramu berpikir atau soal ceritamu…"'+(tutor.loading?' disabled':'')+'></textarea>'+
+        '<button class="btn primary" type="submit"'+(tutor.loading?' disabled':'')+'>Kirim</button></form>'+
+        '<p class="cap">Jangan tulis nama lengkap atau data pribadi. Pesanmu diproses oleh layanan AI.</p>')+
+    '<div class="row"><button class="btn ghost" id="newChat">Mulai obrolan baru</button></div>';
+  const chat = app.querySelector('#chat'); chat.lastElementChild && chat.lastElementChild.scrollIntoView({block:'nearest'});
+  app.querySelector('#newChat').onclick = ()=>{ tutor = {pesan:[], konteks:null, info:null, loading:false, galat:null}; render(); };
+  const r = app.querySelector('#retry'); if(r) r.onclick = ()=>kirimTutor(null);
+  app.querySelectorAll('[data-s]').forEach(b=>b.onclick = ()=>kirimTutor(b.dataset.s));
+  const f = app.querySelector('#chatForm');
+  if(f){
+    const ta = app.querySelector('#chat-in');
+    f.addEventListener('submit', e=>{ e.preventDefault(); kirimTutor(ta.value); });
+    ta.addEventListener('keydown', e=>{ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); kirimTutor(ta.value); } });
+  }
+};
+async function kirimTutor(teks){
+  if(tutor.loading || !CHAT_URL) return;
+  if(teks !== null){
+    teks = String(teks||'').trim().slice(0,300);
+    if(!teks) return;
+    tutor.pesan.push({role:'user', content:teks});
+  }
+  tutor.loading = true; tutor.galat = null;
+  if(screen==='tutor') render();
+  const ctrl = new AbortController(), to = setTimeout(()=>ctrl.abort(), 30000);
+  try{
+    const res = await fetch(CHAT_URL, {method:'POST', headers:{'Content-Type':'application/json'}, signal:ctrl.signal,
+      body: JSON.stringify({pesan: tutor.pesan.slice(-14), konteks: tutor.konteks})});
+    const data = await res.json().catch(()=>({}));
+    if(!res.ok || data.error) throw new Error(data.error || 'Kak Boxy tidak bisa menjawab sekarang.');
+    tutor.pesan.push({role:'assistant', content:String(data.balas||'')});
+    tutor.info = data; sfx('click');
+  }catch(e){
+    tutor.galat = e.name==='AbortError' ? 'Kak Boxy terlalu lama menjawab. Coba lagi, ya.' : (e.message || 'Koneksi bermasalah. Coba lagi, ya.');
+  }finally{
+    clearTimeout(to); tutor.loading = false;
+    if(screen==='tutor') render();
+  }
+}
 
 /* MASUK / DAFTAR */
 const AVA = AVATARS.filter(a=>a.harga===0 && !a.lencana).map(a=>[a.id, a.nama]);
@@ -1534,7 +1651,8 @@ screens.latihan = function(){
       if(tries>=2){
         html += '<p>Jawaban yang benar: <b>'+fmtU(q.jawab,q.u)+'</b></p>'+barOK+'<ol class="steps">'+q.langkah.map(l=>'<li>'+l+'</li>').join('')+'</ol>';
       } else html += '<p>Coba lagi, ya.</p>';
-      fb.innerHTML = html+'</div>';
+      fb.innerHTML = html+TUTOR_BTN+'</div>';
+      tutorStash = {jenis:'latihan level '+q.lv, soal:plainSoal(q.teks), jawabanSiswa:fmtU(v,q.u), miskonsepsi:hit?hit[1]:'', kunci:fmtU(q.jawab,q.u), langkah:q.langkah};
     }
   };
 };
@@ -1593,7 +1711,11 @@ screens.misi = function(){
     }
     app.innerHTML = head()+body;
     const fb = app.querySelector('#fb');
-    const fail = m=>{ sfx('err'); fb.innerHTML = '<div class="fb err"><p class="h">Belum tepat</p><p>'+esc(m)+'</p></div>'; };
+    const fail = m=>{
+      sfx('err'); fb.innerHTML = '<div class="fb err"><p class="h">Belum tepat</p><p>'+esc(m)+'</p>'+TUTOR_BTN+'</div>';
+      tutorStash = {jenis:'misi literasi', tahap:STEPN[Math.min(st,4)], soal:'Bu Sari membeli 2 karung beras. Setiap karung tertulis 50 kg. Toko memotong berat karung 2% dari bruto. Harga beras Rp12.000 per kg. Bu Sari membawa uang Rp1.200.000.',
+        kunci:'Netto 2 karung 98 kg; bayar Rp1.176.000; uang cukup, sisa Rp24.000', langkah:['Tara 1 karung = 2% × 50 = 1 kg','Netto 1 karung = 49 kg, 2 karung = 98 kg','Bayar = 98 × Rp12.000 = Rp1.176.000','Sisa = Rp1.200.000 − Rp1.176.000 = Rp24.000']};
+    };
     const next = ()=>{ sfx('ok'); st++; draw(); window.scrollTo(0,0); };
     if(st===0){
       app.querySelectorAll('.ntag').forEach(t=>t.onclick=()=>{ act=t.dataset.n; draw(); });

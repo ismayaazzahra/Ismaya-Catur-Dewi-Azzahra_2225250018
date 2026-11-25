@@ -74,6 +74,14 @@ BoxBuster/
 ```
 Detail: [docs/ARSITEKTUR.md](docs/ARSITEKTUR.md#3-struktur-folder).
 
+## Asisten AI "Kak Boxy"
+Chatbot pembimbing berpikir (DeepSeek) yang memandu tahap literasi PISA dan fase RMT. Kak Boxy memberi bantuan bertingkat tanpa memberi jawaban akhir.
+API key disimpan di server perantara Cloudflare Worker ([`server/`](server/)), bukan di repo.
+- Desain pedagogis: [docs/ASISTEN_AI.md](docs/ASISTEN_AI.md)
+- Cara memasang server: [server/README.md](server/README.md)
+
+Web dibangun ulang dari sumber prototipe dengan: `powershell -File tools\build-web.ps1`
+
 ## Dokumen Perencanaan
 | Dokumen | Isi |
 |---|---|

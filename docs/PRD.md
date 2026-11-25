@@ -134,6 +134,19 @@ Siswa SMP kesulitan memahami dan membedakan bruto, netto, dan tara—terutama sa
 | **Sortir Istilah** (tambahan) | Sinonim istilah | Kartu istilah ("berat kemasan", "neto", …) dimasukkan ke keranjang Bruto/Netto/Tara, 12 kartu berwaktu | EL01 |
 Pengecoh mini-game memakai kode miskonsepsi yang sama dengan latihan, sehingga umpan baliknya tetap menyebut miskonsepsinya.
 
+### FR-11 Asisten Belajar "Kak Boxy" (DeepSeek)
+- FR-11.1 Chatbot pembimbing proses berpikir: tab **Kak Boxy** di menu bawah, plus tombol **"Minta bimbingan Kak Boxy"** saat jawaban salah di Latihan dan Misi Literasi (soal & miskonsepsi ikut sebagai konteks).
+- FR-11.2 Membimbing literasi matematika bertahap: Pahami → Rencana → Hitung → Cek → Tafsir, satu tahap per giliran.
+- FR-11.3 Mengelola beban kognitif:
+  - intrinsik: langkah kecil;
+  - ekstrinsik: maksimal 3 kalimat pendek dan satu pertanyaan;
+  - germane: siswa diminta menjelaskan alasan.
+- FR-11.4 Tangga bantuan 0–4 sesuai kesulitan siswa; **tidak pernah menyebut jawaban akhir**.
+- FR-11.5 Menerapkan 4 fase RMT (Kinard & Kozulin): konstruksi kognitif → praktik kognitif → konstruksi matematis → praktik matematis.
+- FR-11.6 Layar menampilkan tahap literasi, fase RMT, fokus beban, tingkat bantuan, dan tombol balasan cepat.
+- FR-11.7 API key hanya di server perantara (Cloudflare Worker). Fitur ini butuh internet; fitur lain tetap offline.
+- Detail: [ASISTEN_AI.md](ASISTEN_AI.md). Temuan terkait: IL04, IL05, EL02, EL05, GL03, GL04, DS01, DS02.
+
 ### FR-2 Bongkar Kotak
 - FR-2.1 Pilihan minimal 6 kemasan (keripik, susu kaleng, beras karung, minyak jeriken, paket kardus, biskuit kaleng).
 - FR-2.2 Tap/geser membuka kemasan → isi keluar → label **Netto** (hijau), kemasan kosong → **Tara** (oranye), timbangan awal → **Bruto** (biru).
