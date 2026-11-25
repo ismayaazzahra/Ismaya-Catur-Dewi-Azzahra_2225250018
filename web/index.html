@@ -258,6 +258,23 @@ ol.steps{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:4px}
 .shine{animation:shine 2.4s ease-in-out infinite alternate;transform-origin:180px 96px}
 @keyframes shine{to{opacity:.55;transform:scale(1.12)}}
 .hud{position:absolute;top:10px;left:10px;right:10px;z-index:2;display:flex;justify-content:space-between;gap:8px;line-height:1.2}
+/* peta layar penuh */
+body.map-mode{background:#0B3B47}
+body.map-mode main,body.has-nav.map-mode main{max-width:none;padding:0;gap:0;padding-bottom:calc(160px + env(safe-area-inset-bottom,0px))}
+.map.full{border:0;border-radius:0;width:100%;max-width:640px;margin:0 auto}
+.hud-bar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 67px);z-index:6;height:0;width:100%;max-width:640px;margin:0 auto}
+.hud-bar .hud{left:max(10px,env(safe-area-inset-left,0px));right:max(10px,env(safe-area-inset-right,0px))}
+.hud-r{display:flex;gap:6px;align-items:center;background:none!important;padding:0!important}
+.hud-r > span{background:rgba(6,33,40,.82);color:#FCD34D;font-weight:800;font-size:14px;padding:6px 11px;border-radius:999px}
+.hud-btn{width:36px;height:36px;border-radius:50%;border:0;background:rgba(6,33,40,.82);color:#FCD34D;display:grid;place-items:center;cursor:pointer;padding:0}
+.quest-float{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(74px + env(safe-area-inset-bottom,0px));z-index:12;width:min(560px,calc(100% - 24px));
+  display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:center;background:var(--surface);color:var(--text);border:3px solid #F59E0B;border-radius:16px;padding:8px 10px;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.quest-float img{width:44px;height:42px;object-fit:contain;background:#FFFBF0;border-radius:10px}
+.qf-text{min-width:0}
+.qf-text b{display:block;font-size:15px;line-height:1.25}
+.qf-text small{display:block;font-size:13px;line-height:1.3;color:var(--muted)}
+.quest-float .btn{width:auto;min-height:44px}
+body.has-nav.map-mode .toast{bottom:calc(150px + env(safe-area-inset-bottom,0px))}
 .hud span{background:rgba(6,33,40,.82);color:#FCD34D;font-weight:800;font-size:14px;padding:6px 11px;border-radius:999px;display:flex;gap:6px;align-items:center;font-variant-numeric:tabular-nums;white-space:nowrap}
 .node{position:absolute;transform:translate(-50%,-50%);line-height:1.2;z-index:1}
 .dot{width:46px;height:46px;border-radius:50%;border:3px solid #3B2412;display:grid;place-items:center;font:400 20px var(--f-display);cursor:pointer;box-shadow:0 4px 0 #3B2412;padding:0}
@@ -697,6 +714,7 @@ function render(){
   stopGames();
   back.hidden = TOP.includes(screen) || screen==='masuk';
   syncNav();
+  document.body.classList.toggle('map-mode', screen==='home');
   app.innerHTML=''; screens[screen]();
   if(MUSIC_ON.includes(screen)) startMusic(); else stopMusic();
 }
@@ -1409,6 +1427,22 @@ function toast(msg){
   el.textContent = msg; el.hidden = false; clearTimeout(toastT); toastT = setTimeout(()=>{ el.hidden = true; }, 3200);
 }
 
+/* layar penuh (Fullscreen API); tombolnya hanya muncul jika browser mengizinkan */
+const isFull = ()=>!!(document.fullscreenElement || document.webkitFullscreenElement);
+function fsIcon(){
+  return isFull()
+    ? '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3v6H3M15 3v6h6M9 21v-6H3M15 21v-6h6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sr">Keluar layar penuh</span>'
+    : '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sr">Layar penuh</span>';
+}
+function toggleFullscreen(){
+  const el = document.documentElement;
+  try{
+    if(isFull()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    else{ const p = (el.requestFullscreen || el.webkitRequestFullscreen).call(el); if(p && p.catch) p.catch(()=>toast('Layar penuh tidak didukung di sini.')); }
+  }catch(e){ toast('Layar penuh tidak didukung di sini.'); }
+}
+['fullscreenchange','webkitfullscreenchange'].forEach(ev=>document.addEventListener(ev, ()=>{ const b = document.getElementById('fsBtn'); if(b) b.innerHTML = fsIcon(); }));
+
 screens.home = function(){
   const dn = doneCount(), all = dn>=STEPS.length;
   const cur = STEPS[dn];
@@ -1433,16 +1467,18 @@ screens.home = function(){
     : (dn===0
       ? 'Halo, '+esc(me.nama)+'! Ayo kita menjelajah! Ikuti jalan kayu untuk membuka <b>Kotak Misteri</b> di puncak.'
       : 'Hebat, '+esc(me.nama)+'! Jalan ke <b>'+cur.nama+'</b> sudah terbuka.');
+  const fsOK = !!(document.fullscreenEnabled || document.webkitFullscreenEnabled);
   app.innerHTML =
-    '<div class="pbar"><img src="'+IMG[me.avatar||AVA[0][0]]+'" alt=""><span><b>'+esc(me.nama)+'</b>'+(me.kelas?'<small>Kelas '+esc(me.kelas)+'</small>':'')+'</span><button class="btn ghost sm" id="logout">Ganti pemain</button></div>'+
-    '<section class="quest">'+boxy()+'<div class="speech"><p class="eyebrow">Petualangan BoxBuster</p><p>'+msg+'</p>'+
-      (all ? '' : '<p class="task"><span class="pill">Tahap '+(dn+1)+' dari 5</span> '+cur.tugas+'</p><button class="btn primary" data-step="'+dn+'">Jelajahi '+cur.nama+'</button>')+
-    '</div></section>'+
-    '<div class="map" id="map"><div class="hud"><span><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#FCD34D" stroke="#B45309" stroke-width="2"/></svg>'+koin+' koin</span><span>'+dn+' / 5 pulau</span></div>'+
-      mapSVG(all)+nodes+'</div>'+
-    (all ? '<div class="card reward"><p class="eyebrow">Isi Kotak Misteri</p><h3>Lencana Pembongkar Ahli</h3><p>Kamu sudah bisa membedakan bruto, netto, dan tara, termasuk persen tara.</p><p class="cap">Versi lengkap: lanjut ke Uji Pemahaman dan rapor.</p></div>' : '')+
-    '<div class="row" id="resetRow"><button class="btn ghost" id="reset">Ulangi petualangan</button></div>'+
-    '<p class="note">Pasang BoxBuster di HP: buka menu browser lalu pilih "Instal aplikasi" atau "Tambahkan ke layar utama". Setelah dibuka sekali, bisa dipakai tanpa internet.</p>';
+    '<div class="hud-bar"><div class="hud">'+
+      '<span><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#FCD34D" stroke="#B45309" stroke-width="2"/></svg>'+koin+' koin</span>'+
+      '<span class="hud-r"><span>'+dn+' / 5 pulau</span>'+(fsOK ? '<button class="hud-btn" id="fsBtn">'+fsIcon()+'</button>' : '')+'</span>'+
+    '</div></div>'+
+    '<div class="map full" id="map">'+mapSVG(all)+nodes+'</div>'+
+    '<section class="quest-float" aria-label="Misi saat ini"><img src="'+IMG[me.avatar||'boxy']+'" alt="">'+
+      '<div class="qf-text"><b>'+(all ? 'Kotak Misteri terbuka!' : 'Tahap '+(dn+1)+' dari 5 · '+cur.nama)+'</b>'+
+      '<small>'+(all ? 'Kamu resmi jadi Pembongkar Ahli. Ambil hadiahmu!' : (dn===0 ? 'Halo, '+esc(me.nama)+'! Ayo menjelajah. ' : '')+cur.tugas)+'</small></div>'+
+      (all ? '<button class="btn primary sm" id="qfGoal">Buka</button>' : '<button class="btn primary sm" data-step="'+dn+'">Ayo!</button>')+
+    '</section>';
 
   app.querySelectorAll('[data-step]').forEach(b=>b.addEventListener('click',()=>{
     const i = +b.dataset.step;
@@ -1454,13 +1490,8 @@ screens.home = function(){
     if(all) go('alat');
     else { sfx('err'); toast('Kotak Misteri terkunci. Selesaikan kelima pulau dulu.'); }
   });
-  app.querySelector('#reset').addEventListener('click',()=>{
-    const row = app.querySelector('#resetRow');
-    row.innerHTML = '<p style="flex-basis:100%">Hapus semua progres dan mulai dari Pulau Jajanan?</p><button class="btn ghost" id="no">Batal</button><button class="btn primary" id="yes" style="width:auto">Ya, ulangi</button>';
-    row.querySelector('#no').onclick = ()=>render();
-    row.querySelector('#yes').onclick = ()=>{ store = Object.assign(freshStore(), {music:store.music, sfx:store.sfx}); lxIdx=0; save(); render(); };
-  });
-  app.querySelector('#logout').addEventListener('click',()=>{ me = null; store = freshStore(); syncSnd(); go('masuk'); });
+  const qg = app.querySelector('#qfGoal'); if(qg) qg.addEventListener('click', ()=>go('alat'));
+  const fb = app.querySelector('#fsBtn'); if(fb) fb.addEventListener('click', toggleFullscreen);
 
   // gerakkan jalur & Boxy
   const svg = app.querySelector('#map > svg'), prog = svg.querySelector('#prog'), fullP = svg.querySelector('#full'), hero = svg.querySelector('#hero');
