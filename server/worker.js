@@ -7,14 +7,17 @@
  *   lalu meneruskan ke DeepSeek.
  *
  * Pengaturan di Cloudflare (Settings → Variables and Secrets):
- *   DEEPSEEK_API_KEY  (Secret)  : API key dari platform.deepseek.com
+ *   AI_API_KEY        (Secret)  : API key penyedia AI (nama lama DEEPSEEK_API_KEY juga diterima)
  *   ALLOWED_ORIGINS   (Text)    : https://ismayaazzahra.github.io
  *                                 (boleh lebih dari satu, pisahkan dengan koma)
+ *   API_URL           (Text, opsional) : default DeepSeek resmi (berbayar).
+ *                                 Gratis lewat OpenRouter: https://openrouter.ai/api/v1/chat/completions
+ *   MODEL             (Text, opsional) : default "deepseek-chat".
+ *                                 Untuk OpenRouter pakai model DeepSeek berakhiran ":free".
  *   RATE_LIMIT        (Text, opsional) : batas pesan per perangkat per 10 menit (default 40)
- *   MODEL             (Text, opsional) : default "deepseek-chat"
  */
 
-const DEEPSEEK_URL = 'https://api.deepseek.com/chat/completions';
+const DEFAULT_API_URL = 'https://api.deepseek.com/chat/completions';
 const MAX_PESAN = 14;      // riwayat percakapan yang diteruskan
 const MAX_PANJANG = 600;   // karakter per pesan
 const hits = new Map();    // pembatas sederhana per IP (per instance Worker)
@@ -107,10 +110,13 @@ export default {
       new Response(JSON.stringify(obj), { status, headers: { ...cors, 'Content-Type': 'application/json; charset=utf-8' } });
 
     if (request.method === 'OPTIONS') return new Response(null, { status: originOk ? 204 : 403, headers: cors });
-    if (request.method === 'GET') return json({ ok: true, layanan: 'BoxBuster - Kak Boxy', siap: !!env.DEEPSEEK_API_KEY });
+    const apiKey = env.AI_API_KEY || env.DEEPSEEK_API_KEY || '';
+    const apiUrl = env.API_URL || DEFAULT_API_URL;
+    const model = env.MODEL || 'deepseek-chat';
+    if (request.method === 'GET') return json({ ok: true, layanan: 'BoxBuster - Kak Boxy', siap: !!apiKey, penyedia: new URL(apiUrl).hostname, model });
     if (request.method !== 'POST') return json({ error: 'Metode tidak didukung.' }, 405);
     if (!originOk) return json({ error: 'Asal permintaan tidak diizinkan.' }, 403);
-    if (!env.DEEPSEEK_API_KEY) return json({ error: 'Server belum diberi API key.' }, 500);
+    if (!apiKey) return json({ error: 'Server belum diberi API key.' }, 500);
 
     // pembatas sederhana: maksimal RATE_LIMIT pesan per IP per 10 menit
     const ip = request.headers.get('CF-Connecting-IP') || 'anon';
@@ -133,26 +139,33 @@ export default {
     if (kt) messages.push({ role: 'system', content: kt });
     messages.push(...pesan);
 
+    const panggil = (pakaiJson) => fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + apiKey,
+        'HTTP-Referer': allowed[0] || 'https://ismayaazzahra.github.io', // dipakai OpenRouter, diabaikan DeepSeek
+        'X-Title': 'BoxBuster',
+      },
+      body: JSON.stringify(Object.assign(
+        { model, messages, temperature: 0.4, max_tokens: 400 },
+        pakaiJson ? { response_format: { type: 'json_object' } } : {}
+      )),
+    });
+
     let r;
     try {
-      r = await fetch(DEEPSEEK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + env.DEEPSEEK_API_KEY },
-        body: JSON.stringify({
-          model: env.MODEL || 'deepseek-chat',
-          messages,
-          temperature: 0.4,
-          max_tokens: 400,
-          response_format: { type: 'json_object' },
-        }),
-      });
+      r = await panggil(true);
+      // sebagian model gratis tidak mendukung mode JSON: ulangi sekali tanpa mode itu
+      if (r.status === 400) r = await panggil(false);
     } catch (e) {
       return json({ error: 'Kak Boxy tidak bisa dihubungi. Coba lagi sebentar.' }, 502);
     }
     if (!r.ok) {
-      const msg = r.status === 401 ? 'API key DeepSeek tidak valid.'
-        : r.status === 402 ? 'Saldo akun DeepSeek habis.'
-        : r.status === 429 ? 'Kak Boxy sedang ramai. Coba lagi sebentar.'
+      const msg = r.status === 401 ? 'API key tidak valid.'
+        : r.status === 402 ? 'Saldo akun AI habis.'
+        : r.status === 404 ? 'Model AI tidak ditemukan. Periksa pengaturan MODEL.'
+        : r.status === 429 ? 'Kuota Kak Boxy hari ini sudah habis atau sedang ramai. Coba lagi nanti.'
         : 'Kak Boxy sedang sibuk. Coba lagi.';
       return json({ error: msg }, 502);
     }
